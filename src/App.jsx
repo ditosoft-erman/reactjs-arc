@@ -1,21 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [input, setInput] = useState("");
-  const [history, setHistory] = useState ([]);
-  const [result, setResult] = useState ("");
+  const [input, setInput] = useState('');
+  const [result, setResult] = useState('');
+  const [resultVisible, setResultVisible] = useState(false);
 
   const handleInput = (value) => {
-    setInput((prevInput) => prevInput + value);
+    // Reset input if there's already a result
+    if (resultVisible) {
+      setInput(value);
+      setResult('');
+      setResultVisible(false);
+    } else {
+      setInput((prevInput) => prevInput + value);
+    }
   };
 
   const clearInput = () => {
-    setInput("");
-    setResult(""); 
-  }
+    setInput('');
+    setResult('');
+    setResultVisible(false);
+  };
+
   const handleBackspace = () => {
     setInput((prevInput) => prevInput.slice(0, -1));
   };
@@ -23,51 +30,58 @@ function App() {
   const calculateResult = () => {
     try {
       const calculatedResult = eval(input);
-      const historyItem = { expression: input, result: calculatedResult };
-      setHistory((prevHistory) => [...prevHistory, historyItem]);
       setResult(calculatedResult);
-      setInput(calculatedResult.toString()); 
-      setResult("Error");
+      setResultVisible(true);
+    } catch (error) {
+      setResult('Error');
+      setResultVisible(true);
     }
-    catch (Error){
-      setResult("Error")
   };
-  }
-  
 
-
+  const handleKeyDown = (event) => {
+    const keyPressed = event.key;
+    if (/^[0-9.+\-*/%]$/.test(keyPressed)) {
+      handleInput(keyPressed);
+    } else if (keyPressed === 'Enter') {
+      calculateResult();
+    } else if (keyPressed === 'Backspace') {
+      handleBackspace();
+    }
+  };
 
   return (
-    <>
-    <div className= "numbers">
-      <div className="input">
-        <input type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="0"/>
+    <div className="App" onKeyDown={handleKeyDown} tabIndex={0}>
+      <div className="numbers">
+        <div className="input">
+          <input
+            type="text"
+            value={resultVisible ? result : input}
+            placeholder="0"
+            readOnly
+          />
+        </div>
+        <button onClick={() => handleInput('%')}>%</button>
+        <button onClick={clearInput}>C</button>
+        <button onClick={() => handleBackspace('⌫')}>⌫</button>
+        <button onClick={() => handleInput('0')}>0</button>
+        <button onClick={() => handleInput('1')}>1</button>
+        <button onClick={() => handleInput('2')}>2</button>
+        <button onClick={() => handleInput('+')}>+</button>
+        <button onClick={() => handleInput('3')}>3</button>
+        <button onClick={() => handleInput('4')}>4</button>
+        <button onClick={() => handleInput('5')}>5</button>
+        <button onClick={() => handleInput('-')}>-</button>
+        <button onClick={() => handleInput('6')}>6</button>
+        <button onClick={() => handleInput('7')}>7</button>
+        <button onClick={() => handleInput('8')}>8</button>
+        <button onClick={() => handleInput('*')}>* </button>
+        <button onClick={() => handleInput('9')}>9</button>
+        <button onClick={() => handleInput('.')}>.</button>
+        <button onClick={calculateResult}>=</button>
+        <button onClick={() => handleInput('÷')}>÷</button>
       </div>
-  <button onClick ={() => handleInput ("%")}>%</button>
-  <button onClick={clearInput}>C</button>
-  <button onClick ={() => handleBackspace ("⌫")}>⌫</button>
-  <button onClick ={() => handleInput ("0")}>0</button>
-  <button onClick ={() => handleInput ("1")}>1</button>
-  <button onClick ={() => handleInput ("2")}>2</button>
-  <button onClick ={() => handleInput ("+")}>+</button>
-  <button onClick ={() => handleInput ("3")}>3</button>
-  <button onClick ={() => handleInput ("4")}>4</button>
-  <button onClick ={() => handleInput ("5")}>5</button>
-  <button onClick ={() => handleInput ("-")}>-</button>
-  <button onClick ={() => handleInput ("6")}>6</button>
-  <button onClick ={() => handleInput ("7")}>7</button>
-  <button onClick ={() => handleInput ("8")}>8</button>
-  <button onClick ={() => handleInput ("X")}>X</button>
-  <button onClick ={() => handleInput ("9")}>9</button>
-  <button onClick ={() => handleInput (".")}>.</button>
-  <button onClick ={calculateResult}>=</button>
-  <button onClick ={() => handleInput ("÷")}>÷</button>
-  </div></>
-    
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
