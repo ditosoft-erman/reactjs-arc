@@ -5,6 +5,7 @@ function App() {
   const [input, setInput] = useState('');
   const [result, setResult] = useState('');
   const [resultVisible, setResultVisible] = useState(false);
+  const [history, setHistory] = useState([]);
 
   const handleInput = (value) => {
     // Reset input if there's already a result
@@ -32,6 +33,10 @@ function App() {
       const calculatedResult = eval(input);
       setResult(calculatedResult);
       setResultVisible(true);
+      setHistory((prevHistory) => [
+        ...prevHistory,
+        { expression: input, result: calculatedResult },
+      ]);
     } catch (error) {
       setResult('Error');
       setResultVisible(true);
@@ -74,11 +79,21 @@ function App() {
         <button onClick={() => handleInput('6')}>6</button>
         <button onClick={() => handleInput('7')}>7</button>
         <button onClick={() => handleInput('8')}>8</button>
-        <button onClick={() => handleInput('*')}>* </button>
+        <button onClick={() => handleInput('*')}>*</button>
         <button onClick={() => handleInput('9')}>9</button>
         <button onClick={() => handleInput('.')}>.</button>
         <button onClick={calculateResult}>=</button>
-        <button onClick={() => handleInput('÷')}>÷</button>
+        <button onClick={() => handleInput('/')}>÷</button>
+      </div>
+      <div className="history">
+        <h2>History</h2>
+        <ul>
+          {history.map((item, index) => (
+            <li key={index}>
+              {item.expression} = {item.result}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

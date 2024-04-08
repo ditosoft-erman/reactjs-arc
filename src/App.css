@@ -24,3 +24,12 @@ input {
 .input {
   text-align: right;
 }
+
+ul{
+  list-style: none;
+  margin-left: -3rem;
+}
+
+li {
+  text-align: center;
+}
