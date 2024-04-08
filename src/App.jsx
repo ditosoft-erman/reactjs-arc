@@ -51,7 +51,10 @@ function App() {
       calculateResult();
     } else if (keyPressed === 'Backspace') {
       handleBackspace();
-    }
+     } else if(keyPressed === 'C' || 'c'){
+        clearInput();
+      }
+    
   };
 
   return (
@@ -66,8 +69,8 @@ function App() {
           />
         </div>
         <button onClick={() => handleInput('%')}>%</button>
-        <button onClick={clearInput}>C</button>
-        <button onClick={() => handleBackspace('⌫')}>⌫</button>
+        <button onClick={() => clearInput('C')}>C</button>
+        <button onClick={() => handleBackspace('⌫')} className="back">⌫</button>
         <button onClick={() => handleInput('0')}>0</button>
         <button onClick={() => handleInput('1')}>1</button>
         <button onClick={() => handleInput('2')}>2</button>
@@ -97,6 +100,6 @@ function App() {
       </div>
     </div>
   );
-}
+          }
 
 export default App;

@@ -21,6 +21,10 @@ input {
   border-color: aqua;
 }
 
+.back {
+  width: 99px;
+}
+
 .input {
   text-align: right;
 }
