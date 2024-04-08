@@ -16,7 +16,7 @@
 }
 
 input {
-  width: calc(100% + 2rem);
+  width: calc(100% + 2.5rem);
   height: 3rem;
   border-color: aqua;
 }
