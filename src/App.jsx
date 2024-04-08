@@ -8,7 +8,6 @@ function App() {
   const [history, setHistory] = useState([]);
 
   const handleInput = (value) => {
-    // Reset input if there's already a result
     if (resultVisible) {
       setInput(value);
       setResult('');
@@ -43,6 +42,10 @@ function App() {
     }
   };
 
+  const clearHistory = () => {
+    setHistory([]);
+  };
+
   const handleKeyDown = (event) => {
     const keyPressed = event.key;
     if (/^[0-9.+\-*/%]$/.test(keyPressed)) {
@@ -51,10 +54,9 @@ function App() {
       calculateResult();
     } else if (keyPressed === 'Backspace') {
       handleBackspace();
-     } else if(keyPressed === 'C' || 'c'){
-        clearInput();
-      }
-    
+    } else if (keyPressed === 'C' || keyPressed === 'c') {
+      clearInput();
+    }
   };
 
   return (
@@ -90,6 +92,9 @@ function App() {
       </div>
       <div className="history">
         <h2>History</h2>
+        {history.length > 0 && (
+          <button onClick={clearHistory}>Clear History</button>
+        )}
         <ul>
           {history.map((item, index) => (
             <li key={index}>
@@ -100,6 +105,6 @@ function App() {
       </div>
     </div>
   );
-          }
+}
 
 export default App;
