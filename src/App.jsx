@@ -13,7 +13,22 @@ function App() {
       setResult('');
       setResultVisible(false);
     } else {
-      setInput((prevInput) => prevInput + value);
+      if (value === '%') {
+        try {
+          const calculatedResult = eval(input) / 100;
+          setInput(calculatedResult.toString());
+          
+          setHistory((prevHistory) => [
+            ...prevHistory,
+            { expression: input + '%', result: calculatedResult },
+          ]);
+        } catch (error) {
+          setResult('Error');
+          setResultVisible(true);
+        }
+      } else {
+        setInput((prevInput) => prevInput + value);
+      }
     }
   };
 
